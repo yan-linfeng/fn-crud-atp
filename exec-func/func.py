@@ -121,6 +121,7 @@ def handler(ctx, data: io.BytesIO = None):
     
 def create_user(ctx, payload):
     try:
+        user_id = payload.get("user_id")
         first_name = payload.get("first_name")
         last_name = payload.get("last_name")
         username = payload.get("username")
@@ -129,10 +130,10 @@ def create_user(ctx, payload):
             raise ValueError("Missing required fields: first_name, last_name, username")
 
         sql_statement = """
-            INSERT INTO users (FIRST_NAME, LAST_NAME, USERNAME)
-            VALUES (:1, :2, :3)
+            INSERT INTO users (ID, FIRST_NAME, LAST_NAME, USERNAME)
+            VALUES (:1, :2, :3, :4)
         """
-        bind_vars = [first_name, last_name, username]
+        bind_vars = [user_id, first_name, last_name, username]
 
     except Exception as ex:
         print('ERROR: Invalid payload', ex, flush=True)
