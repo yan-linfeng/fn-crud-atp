@@ -48,6 +48,7 @@ def create_user(ctx, payload):
     try:
         user_id = None
         path = ctx.RequestURL()
+        print("INFO: path is {}".format(path), flush=True)
         path_parts = path.strip('/').split('/')
         if len(path_parts) >= 2 and path_parts[-2] == 'users':
             user_id = path_parts[-1]
