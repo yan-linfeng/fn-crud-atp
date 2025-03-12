@@ -17,11 +17,17 @@ if db_password == None:
 if dsn == None:
     raise ValueError("ERROR: Missing configuration key DSN")
 
+print("INFO: DB_USER is {}".format(db_user), flush=True)
+print("INFO: db_password is {}".format(db_password), flush=True)
+print("INFO: dsn is {}".format(dsn), flush=True)
+
+
 # Create the DB Session Pool
 start_pool = timer()
 dbpool = oracledb.create_pool(user=db_user, password=db_password, dsn=dsn, min=1, max=10) 
 end_pool = timer()
 print("INFO: DB pool created in {} sec".format(end_pool - start_pool), flush=True)
+
 
 #
 # Function Handler: executed every time the function is invoked
