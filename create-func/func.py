@@ -5,22 +5,21 @@ import oracledb
 from timeit import default_timer as timer
 from fdk import response
 
-if os.getenv("DBUSER") != None:
-    dbuser = os.getenv("DBUSER")
-else:
+# Get connection parameters from enviroment
+db_user = os.getenv("DB_USER")
+db_password = os.getenv("DB_PASSWORD")
+dsn = os.getenv("DSN")
+
+if db_user == None:
     raise ValueError("ERROR: Missing configuration key DBUSER")
-if os.getenv("DBPWD_CYPHER") != None:
-    dbpwd_cypher = dbpwd = os.getenv("DBPWD_CYPHER") # The decryption of the db password using OCI KMS would have to be done, however it is not addressed here
-else:
-    raise ValueError("ERROR: Missing configuration key DBPWD_CYPHER")
-if os.getenv("DSN") != None:
-    dbsvc = os.getenv("DSN")
-else:
+if db_password == None:
+    raise ValueError("ERROR: Missing configuration key DBPASSWORD")
+if dsn == None:
     raise ValueError("ERROR: Missing configuration key DSN")
 
 # Create the DB Session Pool
 start_pool = timer()
-dbpool = oracledb.create_pool(user=dbuser, password=dbpwd, dsn=dbsvc, min=1, max=10) 
+dbpool = oracledb.create_pool(user=db_user, password=db_password, dsn=dsn, min=1, max=10) 
 end_pool = timer()
 print("INFO: DB pool created in {} sec".format(end_pool - start_pool), flush=True)
 
