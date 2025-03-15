@@ -48,7 +48,7 @@ def create_user(ctx, payload):
     try:
         user_id = None
         path = ctx.RequestURL()
-        print("INFO: path is {}".format(path), flush=True)
+        print("INFO: Url path is parsed as {}".format(path), flush=True)
         path_parts = path.strip('/').split('/')
         if len(path_parts) >= 2 and path_parts[-2] == 'users':
             user_id = path_parts[-1]
@@ -63,6 +63,7 @@ def create_user(ctx, payload):
         if not first_name or not last_name or not username:
             raise ValueError("Missing required fields: first_name, last_name, username")
 
+        print("INFO: Paramters has been successfully parsed")
         sql_statement = """
             INSERT INTO users (ID, FIRST_NAME, LAST_NAME, USERNAME)
             VALUES (:1, :2, :3, :4)
@@ -75,6 +76,7 @@ def create_user(ctx, payload):
 
     try:
         with dbpool.acquire() as dbconnection:
+            print("INFO: DB connections has been acquired")
             with dbconnection.cursor() as dbcursor:
                 dbcursor.execute(sql_statement, bind_vars)
                 dbconnection.commit()
